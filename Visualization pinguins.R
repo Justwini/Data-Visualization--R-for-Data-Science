@@ -157,7 +157,7 @@ ggplot(
     title = "Body mass and flipper length",
     subtitle = "Dimensions for Adelie, Chinstrap, and Gentoo Penguins",
     x = "Flipper length (mm)", y = "Body mass (g)",
-    color = "Species"
+    color = "bill depth"
   ) 
 #in geom level because in global r want to have groups;
 #2: The following aesthetics were dropped during statistical transformation: colour.
@@ -194,4 +194,111 @@ ggplot() +
     data = penguins,
     mapping = aes(x = flipper_length_mm, y = body_mass_g)
   )
-#NO diffrents, because we use the same mapping in global and in smooth, we only need to specify this x and y ones, there is no grouping   
+#NO diffrents, because we use the same mapping in global and in smooth,
+#we only need to specify this x and y ones, there is no grouping   
+
+ggplot(penguins,aes(x=species))+geom_bar()
+ggplot(penguins, aes(x=fct_infreq(species)))+geom_bar()
+fct_infre
+
+ggplot(penguins,aes(x=body_mass_g))+geom_histogram(binwidth = 200)
+
+ggplot(penguins, aes(x = body_mass_g)) +
+  geom_histogram(binwidth = 20)
+
+ggplot(penguins, aes(x = body_mass_g)) +
+  geom_histogram(binwidth = 2000)
+
+ggplot(penguins, aes(x = body_mass_g)) +
+  geom_density()
+
+#1.4.3 Exercises
+#1 Make a bar plot of species of penguins, where you assign species to the y aesthetic. 
+#How is this plot different?
+ggplot(penguins,aes(y=species))+geom_bar()
+#plot is vertical oriented
+
+#2 How are the following two plots different? Which aesthetic, color or fill, is more useful for changing
+#the color of bars?
+  
+  ggplot(penguins, aes(x = species)) +
+  geom_bar(color = "red")
+#color in geom only change outlines of bars, its not visible, fill change whole surface of bars 
+ggplot(penguins, aes(x = species)) +
+  geom_bar(fill = "red")
+
+#3 What does the bins argument in geom_histogram() do?
+#bins define how many bins we want to use to display histogram
+
+#4 Make a histogram of the carat variable in the diamonds dataset that is available when you load 
+#the tidyverse package. Experiment with different binwidths. What binwidth reveals the most
+#interesting patterns?
+diamonds
+glimpse(diamonds)
+ggplot(diamonds,aes(x=carat))+geom_histogram(binwidth = 20)
+ggplot(diamonds,aes(x=carat))+geom_histogram(binwidth = 0.01)
+ggplot(diamonds,aes(x=carat))+geom_histogram(binwidth = 1)
+ggplot(diamonds,aes(x=carat))+geom_histogram(binwidth = 0.5)
+ggplot(diamonds,aes(x=carat))+geom_histogram(binwidth = 0.2)
+ggplot(diamonds,aes(x=carat))+geom_histogram(binwidth = 0.1)
+ggplot(diamonds,aes(x=carat))+geom_histogram(binwidth = 0.005)
+ggplot(diamonds,aes(x=carat))+geom_density()
+
+
+ggplot(penguins, aes(x = species, y = body_mass_g)) +
+  geom_boxplot()
+ggplot(penguins, aes(x = body_mass_g, color = species)) +
+  geom_density(linewidth = 0.75)
+ggplot(penguins, aes(x = body_mass_g, color = species, fill = species)) +
+  geom_density(alpha = 0.5)
+
+
+ggplot(penguins, aes(x = island, fill = species)) +
+  geom_bar()
+#.5.5 Exercises
+#1 The mpg data frame that is bundled with the ggplot2 package contains 234 observations collected
+#by the US Environmental Protection Agency on 38 car models. Which variables in mpg
+#are categorical? Which variables are numerical? 
+#(Hint: Type ?mpg to read the documentation for the dataset.
+# How can you see this information when you run mpg?
+?mpg
+glimpse(mpg)
+summary(mpg)
+#2 Make a scatterplot of hwy vs. displ using the mpg data frame. Next, map a third,
+#numerical variable to color, then size, then both color and size, then shape.
+#How do these aesthetics behave differently for categorical vs. numerical variables?
+  
+#3 In the scatterplot of hwy vs. displ, what happens if you map a third variable to linewidth?
+  
+#4 What happens if you map the same variable to multiple aesthetics?
+  
+#5 Make a scatterplot of bill_depth_mm vs. bill_length_mm and color the points by species.
+#What does adding coloring by species reveal about the relationship between these two variables?
+#What about faceting by species?
+  
+#6 Why does the following yield two separate legends? How would you fix it to combine the two legends?
+  
+  ggplot(
+    data = penguins,
+    mapping = aes(
+      x = bill_length_mm, y = bill_depth_mm, 
+      color = species, shape = species
+    )
+  ) +
+  geom_point() +
+  labs(color = "Species")
+
+#7 Create the two following stacked bar plots. Which question can you answer with the first one? Which question can you answer with the second one?
+  
+  ggplot(penguins, aes(x = island, fill = species)) +
+  geom_bar(position = "fill")
+ggplot(penguins, aes(x = species, fill = island)) +
+  geom_bar(position = "fill")
+ggplot(penguins, aes(x = island, fill = species)) +
+  geom_bar(position = "fill")
+
+ggplot(penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
+  geom_point(aes(color = species, shape = species)) +
+  facet_wrap(~island)
+
+
